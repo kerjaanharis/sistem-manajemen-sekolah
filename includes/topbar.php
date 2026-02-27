@@ -2,9 +2,10 @@
 // includes/topbar.php
 ?>
 <!-- Main Content Wrapper -->
-<div class="flex-1 flex flex-col bg-slate-50 h-screen overflow-y-auto">
+<div class="flex-1 flex flex-col bg-slate-50 h-screen overflow-hidden">
     <!-- Topbar -->
-    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-40 sticky top-0">
+    <header
+        class="h-16 shrink-0 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-40 relative">
         <div class="flex items-center">
             <button id="mobile-menu-btn"
                 class="text-slate-500 hover:text-primary hover:bg-slate-100 rounded-lg p-2 focus:outline-none mr-4 transition-all">
@@ -31,7 +32,10 @@
             </div>
 
             <!-- Notifications -->
-            <button class="relative text-slate-400 hover:text-primary transition-colors">
+            <button
+                onclick="Swal.fire('Fitur Notifikasi', 'Pusat pemberitahuan sistem sedang dalam tahap pengembangan.', 'info')"
+                class="relative text-slate-400 hover:text-primary transition-colors focus:outline-none"
+                title="Notifikasi Sistem">
                 <i class="far fa-bell text-lg"></i>
                 <span
                     class="absolute top-0 right-0 -mt-1 -mr-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white shadow-sm ring-2 ring-white">3</span>
@@ -96,4 +100,4 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex-1 bg-slate-50 p-6 min-h-full">
+    <main class="flex-1 bg-slate-50 p-6 overflow-y-auto">

@@ -130,7 +130,8 @@ try {
                 <option value="">Semua Role</option>
                 <?php foreach ($available_roles as $r): ?>
                     <option value="<?= htmlspecialchars($r) ?>" <?= $filter_role == $r ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($r) ?></option>
+                        <?= htmlspecialchars($r) ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -141,7 +142,8 @@ try {
                 <option value="">Semua Aktivitas</option>
                 <?php foreach ($available_activities as $act): ?>
                     <option value="<?= htmlspecialchars($act) ?>" <?= $filter_aktifitas == $act ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($act) ?></option>
+                        <?= htmlspecialchars($act) ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -177,6 +179,7 @@ try {
             <thead>
                 <tr
                     class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
+                    <th class="px-5 py-4 w-12 text-center">No</th>
                     <th class="px-5 py-4 w-16 text-center">ID Log</th>
                     <th class="px-5 py-4 w-40">Waktu</th>
                     <th class="px-5 py-4">Pengguna & Role</th>
@@ -192,7 +195,9 @@ try {
                             <p class="font-medium text-slate-600">Tidak ada log aktivitas sesuai filter.</p>
                         </td>
                     </tr>
-                <?php else: ?>
+                <?php else: 
+                    $no = $offset + 1;
+                ?>
                     <?php foreach ($logs as $log):
                         // Badge color mapping
                         $act = strtolower($log['aktifitas'] ?? '');
@@ -212,7 +217,11 @@ try {
                         elseif (strpos($act, 'backup') !== false || strpos($act, 'restore') !== false)
                             $badge_class = 'bg-purple-100 text-purple-800 border border-purple-200';
                         ?>
-                        <tr class="hover:bg-slate-50/70 transition-colors cursor-pointer" onclick="openLogModal('<?= htmlspecialchars(addslashes($log['aktifitas'] ?? 'Detail')) ?>', '<?= htmlspecialchars(addslashes(str_replace(PHP_EOL, '<br>', $log['keterangan_tambahan'] ?? ''))) ?>', '<?= date('d M Y - H:i:s', strtotime($log['waktu'])) ?>', '<?= htmlspecialchars(addslashes($log['nama_user'] ?? '')) ?>')">
+                        <tr class="hover:bg-slate-50/70 transition-colors cursor-pointer"
+                            onclick="openLogModal('<?= htmlspecialchars(addslashes($log['aktifitas'] ?? 'Detail')) ?>', '<?= htmlspecialchars(addslashes(str_replace(PHP_EOL, '<br>', $log['keterangan_tambahan'] ?? ''))) ?>', '<?= date('d M Y - H:i:s', strtotime($log['waktu'])) ?>', '<?= htmlspecialchars(addslashes($log['nama_user'] ?? '')) ?>')">
+                            <td class="px-5 py-4 text-center text-slate-500 font-medium text-xs">
+                                <?= $no++ ?>
+                            </td>
                             <td class="px-5 py-4 text-center text-slate-400 font-mono text-xs">
                                 #<?= str_pad($log['id_log'], 5, '0', STR_PAD_LEFT) ?>
                             </td>
@@ -242,6 +251,9 @@ try {
                                     class="inline-flex px-2.5 py-1 text-[11px] font-bold rounded-md uppercase tracking-wide <?= $badge_class ?>">
                                     <?= htmlspecialchars($log['aktifitas'] ?? 'Misterius') ?>
                                 </span>
+                                <div class="mt-2 text-xs text-slate-500 max-w-xs break-words leading-relaxed">
+                                    <?= htmlspecialchars($log['keterangan_tambahan'] ?? '-') ?>
+                                </div>
                             </td>
                             <td class="px-5 py-4">
                                 <div class="text-[11px] text-slate-600 font-mono leading-relaxed space-y-1">

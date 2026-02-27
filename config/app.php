@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id'])) {
         $_SESSION['error_msg'] = "Sesi Anda telah berakhir karena tidak ada aktivitas (" . (SESSION_TIMEOUT_SECONDS / 60) . " menit). Silakan login kembali.";
 
         // Lempar kembali ke login
-        header("Location: " . base_url('modules/auth/login.php'));
+        header("Location: " . BASE_URL . '/modules/auth/login.php');
         exit;
     }
     // Update cap waktu aktivitas terakhir dengan waktu saat ini (tiap kali me-reload/mengklik page)

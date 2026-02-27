@@ -11,12 +11,20 @@
     class="w-64 border-r border-slate-800 md:w-20 hover:w-64 bg-slate-900 text-white flex flex-col transition-all duration-300 z-50 shadow-xl fixed md:static inset-y-0 left-0 -translate-x-full md:translate-x-0 h-screen shrink-0 overflow-x-hidden group">
 
     <!-- Brand -->
-    <div class="h-16 flex items-center border-b border-slate-800 bg-slate-950/50 px-6 shrink-0">
-        <h1 class="text-lg font-bold flex items-center text-blue-400 whitespace-nowrap">
-            <i class="fas fa-building-columns shrink-0 text-xl w-8 text-center"></i>
+    <div
+        class="h-16 flex items-center border-b border-slate-800/80 bg-slate-950/80 px-6 shrink-0 relative overflow-hidden">
+        <!-- Optional: subtle glow effect -->
+        <div class="absolute top-0 left-1/4 w-1/2 h-full bg-blue-500/10 blur-xl rounded-full z-0"></div>
+        <h1 class="text-xl font-black flex items-center whitespace-nowrap z-10">
+            <div
+                class="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 shrink-0 border border-white/10">
+                <i class="fas fa-building-columns text-white text-[15px]"></i>
+            </div>
             <span
-                class="opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-3 tracking-wider">
-                PINTU <span class="text-white ml-1">KARTANEGARA</span>
+                class="opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-3.5 tracking-wide flex items-center drop-shadow-sm">
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 mr-1.5">PINTU</span>
+                <span class="text-white font-semibold">KARTANEGARA</span>
             </span>
         </h1>
     </div>
@@ -53,6 +61,17 @@
                 </a>
             </li>
 
+            <!-- Menu Tugas Tambahan -->
+            <li>
+                <a href="<?= base_url('modules/tugas_tambahan') ?>"
+                    class="flex items-center px-3 py-3 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors <?= isset($current_page) && $current_page == 'tugas_tambahan' ? 'bg-slate-800 text-white' : '' ?>">
+                    <i class="fas fa-id-badge w-8 text-center text-indigo-400 shrink-0 text-lg"></i>
+                    <span
+                        class="ml-3 whitespace-nowrap opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm">Tugas
+                        Tambahan</span>
+                </a>
+            </li>
+
             <!-- Menu Data Siswa -->
             <li>
                 <a href="<?= base_url('modules/siswa') ?>"
@@ -61,6 +80,17 @@
                     <span
                         class="ml-3 whitespace-nowrap opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm">Data
                         Siswa</span>
+                </a>
+            </li>
+
+            <!-- Menu Master Kelas -->
+            <li>
+                <a href="<?= base_url('modules/kelas') ?>"
+                    class="flex items-center px-3 py-3 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors <?= isset($current_page) && $current_page == 'kelas' ? 'bg-slate-800 text-white' : '' ?>">
+                    <i class="fas fa-layer-group w-8 text-center text-yellow-500 shrink-0 text-lg"></i>
+                    <span
+                        class="ml-3 whitespace-nowrap opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm">Master
+                        Kelas</span>
                 </a>
             </li>
         </ul>

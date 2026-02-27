@@ -47,9 +47,34 @@ CREATE TABLE IF NOT EXISTS data_siswa (
     angkatan YEAR NULL,
     rfid_tag VARCHAR(50) NULL UNIQUE,
     koordinat_gis VARCHAR(100) NULL,
-    status_siswa ENUM('Aktif', 'Lulus', 'Pindah', 'Keluar') DEFAULT 'Aktif',
+    status_siswa ENUM('Aktif', 'Lulus', 'Pindah', 'Keluar', 'Drop Out', 'Mutasi Keluar') DEFAULT 'Aktif',
+    tahun_lulus VARCHAR(10) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 3A. Tabel Master Kelas (Rombongan Belajar per Tahun Ajaran)
+CREATE TABLE IF NOT EXISTS master_kelas (
+    id_kelas INT AUTO_INCREMENT PRIMARY KEY,
+    tahun_ajaran VARCHAR(20) NOT NULL,
+    tingkat VARCHAR(10) NOT NULL,
+    nama_kelas VARCHAR(50) NOT NULL,
+    id_wali_kelas_ganjil INT NULL,
+    id_wali_kelas_genap INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_wali_kelas_ganjil) REFERENCES data_pegawai(id_pegawai) ON DELETE SET NULL,
+    FOREIGN KEY (id_wali_kelas_genap) REFERENCES data_pegawai(id_pegawai) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 3B. Tabel Anggota Kelas (Riwayat Kelas Siswa)
+CREATE TABLE IF NOT EXISTS anggota_kelas (
+    id_anggota INT AUTO_INCREMENT PRIMARY KEY,
+    id_kelas INT NOT NULL,
+    id_siswa INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_kelas) REFERENCES master_kelas(id_kelas) ON DELETE CASCADE,
+    FOREIGN KEY (id_siswa) REFERENCES data_siswa(id_siswa) ON DELETE CASCADE,
+    UNIQUE KEY unique_siswa_kelas (id_kelas, id_siswa)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 4. Tabel Data Pegawai (Guru dan Karyawan) Inti
@@ -64,6 +89,26 @@ CREATE TABLE IF NOT EXISTS data_pegawai (
     status_pegawai ENUM('Aktif', 'Cuti', 'Mutasi', 'Pensiun') DEFAULT 'Aktif',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 4A. Tabel Master Tugas Tambahan
+CREATE TABLE IF NOT EXISTS master_tugas (
+    id_tugas INT AUTO_INCREMENT PRIMARY KEY,
+    nama_tugas VARCHAR(100) NOT NULL UNIQUE,
+    kategori ENUM('Wakil Kepala Sekolah', 'Kepala Program/Unit', 'Koordinator/Pembina', 'Lainnya') DEFAULT 'Lainnya'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 4B. Tabel Penugasan Pegawai (Riwayat Tugas Tambahan)
+CREATE TABLE IF NOT EXISTS penugasan_pegawai (
+    id_penugasan INT AUTO_INCREMENT PRIMARY KEY,
+    id_pegawai INT NOT NULL,
+    id_tugas INT NOT NULL,
+    tahun_ajaran VARCHAR(20) NOT NULL,
+    semester ENUM('Ganjil', 'Genap') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_pegawai) REFERENCES data_pegawai(id_pegawai) ON DELETE CASCADE,
+    FOREIGN KEY (id_tugas) REFERENCES master_tugas(id_tugas) ON DELETE CASCADE,
+    UNIQUE KEY unique_penugasan (id_pegawai, id_tugas, tahun_ajaran, semester)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 5. Tabel Log Aktivitas Terpadu

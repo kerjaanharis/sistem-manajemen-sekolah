@@ -164,11 +164,13 @@ try {
                                 <?= $no++ ?>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="flex items-center">
+                                <a href="<?= base_url('modules/siswa/detail.php?id=' . $row['id_siswa']) ?>"
+                                    class="flex items-center group/profile cursor-pointer hover:bg-slate-50 p-2 rounded-lg -ml-2 transition-colors">
                                     <img src="https://ui-avatars.com/api/?name=<?= urlencode($row['nama_lengkap']) ?>&background=random&color=fff&rounded=true"
-                                        alt="Avatar" class="h-10 w-10 rounded-full border-2 border-white shadow-sm mr-3">
+                                        alt="Avatar"
+                                        class="h-10 w-10 rounded-full border-2 border-slate-200 group-hover/profile:border-primary shadow-sm mr-3 transition-colors">
                                     <div>
-                                        <h4 class="font-bold text-slate-800">
+                                        <h4 class="font-bold text-slate-800 group-hover/profile:text-primary transition-colors">
                                             <?= htmlspecialchars($row['nama_lengkap']) ?>
                                         </h4>
                                         <span class="text-xs text-slate-500 flex items-center mt-0.5">
@@ -177,7 +179,7 @@ try {
                                             <?= $row['jenis_kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan' ?>
                                         </span>
                                     </div>
-                                </div>
+                                </a>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="font-semibold text-slate-700">
@@ -224,8 +226,12 @@ try {
                                 </div>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <div
-                                    class="flex items-center justify-center space-x-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                                <div class="flex items-center justify-center space-x-2 transition-opacity">
+                                    <a href="<?= base_url('modules/siswa/detail.php?id=' . $row['id_siswa']) ?>"
+                                        class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-500 hover:text-white flex items-center justify-center transition-colors border border-blue-200 hover:border-blue-500"
+                                        title="Detail Siswa">
+                                        <i class="fas fa-eye text-sm"></i>
+                                    </a>
                                     <a href="<?= base_url('modules/siswa/edit.php?id=' . $row['id_siswa']) ?>"
                                         class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white flex items-center justify-center transition-colors border border-amber-200 hover:border-amber-500"
                                         title="Edit Siswa">
