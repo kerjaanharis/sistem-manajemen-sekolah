@@ -4,6 +4,7 @@ require_once '../../config/database.php';
 require_once '../../config/functions.php';
 
 // Pastikan hanya admin yang bisa mengakses halaman ini
+// Cek autentikasi admin
 if (!isset($_SESSION['user_id']) || strtolower($_SESSION['role_name']) !== 'administrator') {
     $_SESSION['error_msg'] = "Akses ditolak. Hanya Administrator yang dapat mengakses Pengaturan Sistem.";
     header("Location: " . base_url('index.php'));
@@ -25,6 +26,10 @@ $data_ta = $stmt_ta->fetchAll();
 // Ambil data pengaturan sekolah
 $stmt_sekolah = $pdo->query("SELECT * FROM pengaturan_sekolah WHERE id = 1");
 $sekolah = $stmt_sekolah->fetch(PDO::FETCH_ASSOC) ?: [];
+
+// Ambil data roles
+$stmt_roles = $pdo->query("SELECT * FROM roles ORDER BY id_role ASC");
+$data_roles = $stmt_roles->fetchAll(PDO::FETCH_ASSOC);
 
 require_once '../../includes/header.php';
 require_once '../../includes/sidebar.php';
@@ -107,19 +112,7 @@ require_once '../../includes/topbar.php';
 
         <!-- TAB: Role Akses -->
         <div id="tab-role" class="tab-content hidden animate-fadeIn">
-            <h4 class="text-lg font-bold text-slate-800 mb-6 border-b border-slate-100 pb-2 flex items-center">
-                <i class="fas fa-user-shield text-primary mr-2"></i> Pengaturan Role & Hak Akses
-            </h4>
-            <div class="text-center py-16 bg-slate-50/50 rounded-xl border border-dashed border-slate-200">
-                <div
-                    class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-slate-100 text-slate-300">
-                    <i class="fas fa-user-shield text-3xl"></i>
-                </div>
-                <h5 class="text-slate-700 font-bold mb-1">Modul Dalam Pengembangan</h5>
-                <p class="text-sm text-slate-500 max-w-md mx-auto">
-                    Manajemen tingkatan otorisasi dan hak akses modul (Admin, Guru, Kepala Sekolah) sedang disiapkan.
-                </p>
-            </div>
+            <?php require_once 'form_role.php'; ?>
         </div>
 
         <!-- TAB: Tahun Ajaran -->
